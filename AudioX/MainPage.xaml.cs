@@ -16,14 +16,26 @@ namespace AudioX
     public partial class MainPage : ContentPage
     {
         List<ISimpleAudioPlayer> Sound = new List<ISimpleAudioPlayer>();
+        double C = Math.Pow(2, 1 / 12.0);
+        int S = 0;
+
         public MainPage()
         {
             InitializeComponent();
-
-            PlayBeep(196, 5000);
-//            Sound[0].Loop = true;
-            Sound[0].Play();
+            Sound.Add(CrossSimpleAudioPlayer.CreateSimpleAudioPlayer());
+            Sound.Add(CrossSimpleAudioPlayer.CreateSimpleAudioPlayer());
+            Device.StartTimer(new TimeSpan(0,0,0,0,100), () =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    OnTimer();
+                });
+                return true; // runs again, or false to stop
+            });
         }
+
+        double oldVal = -1;
+        double oldVal2 = -1;
 
         int AddAudio(Stream stream, double volume = 1)
         {
@@ -82,8 +94,37 @@ namespace AudioX
             writer.Close();
             mStrm.Close();
 
-            AddAudio(new MemoryStream(mStrm.ToArray()));
+            //AddAudio(new MemoryStream(mStrm.ToArray()));
+            Sound[S].Load(new MemoryStream(mStrm.ToArray()));
+            Sound[S].Play();
+            S = 1 - S;
         }
 
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+            PlayBeep(CalcFreq(Freq.Value), 1000);
+            PlayBeep(CalcFreq(Freq2.Value), 1000);
+        }
+
+        private void OnTimer()
+        {
+            if (Freq.Value != oldVal) {
+                oldVal = Freq.Value;
+                PlayBeep(CalcFreq(Freq.Value), 100);
+            }
+            if (Freq2.Value != oldVal2) {
+                oldVal2 = Freq2.Value;
+                PlayBeep(CalcFreq(Freq2.Value), 200);
+            }
+        }
+
+        ushort CalcFreq(double v)
+        {
+            return (ushort)(262 * Math.Pow(C, (v - 40)+20));
+        }
+
+        private void Freq_ValueChanged(object sender, ValueChangedEventArgs e)
+        {
+        }
     }
 }

@@ -7,10 +7,9 @@
              x:Class="AudioX.MainPage">
 
     <StackLayout>
-        <!-- Place new controls here -->
-        <Label Text="Welcome to Xamarin.Forms!" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
+        <Button Text="Play" Clicked="Button_Clicked" HorizontalOptions="Center"/>
+        <Slider x:Name="Freq" Maximum="80" Value="40"/>
+        <Slider x:Name="Freq2" Maximum="80" Value="40"/>
     </StackLayout>
 
 </ContentPage>
