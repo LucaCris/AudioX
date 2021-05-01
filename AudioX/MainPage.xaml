@@ -6,10 +6,11 @@
              mc:Ignorable="d"
              x:Class="AudioX.MainPage">
 
-    <StackLayout>
-        <Button Text="Play" Clicked="Button_Clicked" HorizontalOptions="Center"/>
-        <Slider x:Name="Freq" Maximum="80" Value="40"/>
-        <Slider x:Name="Freq2" Maximum="80" Value="40"/>
-    </StackLayout>
-
+    <Grid BackgroundColor="#7C70DA" Padding="50">
+        <StackLayout BackgroundColor="#3E31A2" Padding="10" Spacing="40">
+            <Button Text="Play" Clicked="Button_Clicked" HorizontalOptions="Center" TextColor="White" BackgroundColor="#7C70DA"/>
+            <Slider x:Name="Freq" Maximum="80" Value="40"/>
+            <Slider x:Name="Freq2" Maximum="80" Value="40"/>
+        </StackLayout>
+    </Grid>
 </ContentPage>
